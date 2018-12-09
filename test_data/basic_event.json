@@ -1,0 +1,119 @@
+{
+  "timestamp": 1544392617,
+  "entity": {
+    "entity_class": "agent",
+    "system": {
+      "hostname": "9ba04c14fe40",
+      "os": "linux",
+      "network": {
+        "interfaces": [
+          {
+            "name": "lo",
+            "addresses": [
+              "127.0.0.1/8"
+            ]
+          },
+          {
+            "name": "tunl0",
+            "addresses": null
+          },
+          {
+            "name": "ip6tnl0",
+            "addresses": null
+          },
+          {
+            "name": "eth0",
+            "mac": "02:42:ac:11:00:02",
+            "addresses": [
+              "172.17.0.2/16"
+            ]
+          }
+        ]
+      },
+      "arch": "amd64"
+    },
+    "subscriptions": [
+      "linux",
+      "entity:hab-sensu-agent"
+    ],
+    "last_seen": 1544391638,
+    "deregister": false,
+    "deregistration": {},
+    "user": "agent",
+    "metadata": {
+      "name": "hab-sensu-agent",
+      "namespace": "default"
+    }
+  },
+  "check": {
+    "command": "echo 'PING ok - Packet loss = 0%, RTA = 0.80 ms | percent_packet_loss=0, rta=0.80'",
+    "handlers": [],
+    "high_flap_threshold": 0,
+    "interval": 15,
+    "low_flap_threshold": 0,
+    "publish": true,
+    "runtime_assets": null,
+    "subscriptions": [
+      "linux",
+      "demo"
+    ],
+    "proxy_entity_name": "",
+    "check_hooks": null,
+    "stdin": false,
+    "subdue": null,
+    "ttl": 0,
+    "timeout": 0,
+    "round_robin": false,
+    "duration": 0.0008939,
+    "executed": 1544392617,
+    "history": [
+      {
+        "status": 0,
+        "executed": 1544392587
+      },
+      {
+        "status": 0,
+        "executed": 1544392602
+      },
+      {
+        "status": 0,
+        "executed": 1544392617
+      }
+    ],
+    "issued": 1544392617,
+    "output": "PING ok - Packet loss = 0%, RTA = 0.80 ms | percent_packet_loss=0, rta=0.80\n",
+    "state": "passing",
+    "status": 0,
+    "total_state_change": 0,
+    "last_ok": 1544392617,
+    "occurrences": 1,
+    "occurrences_watermark": 1,
+    "output_metric_format": "nagios_perfdata",
+    "output_metric_handlers": null,
+    "env_vars": null,
+    "metadata": {
+      "name": "marketing-site",
+      "namespace": "default"
+    }
+  },
+  "metrics": {
+    "handlers": null,
+    "points": [
+      {
+        "name": "percent_packet_loss",
+        "value": 0,
+        "timestamp": 1544392617,
+        "tags": []
+      },
+      {
+        "name": "rta",
+        "value": 0.8,
+        "timestamp": 1544392617,
+        "tags": []
+      }
+    ]
+  },
+  "metadata": {
+    "namespace": "default"
+  }
+}

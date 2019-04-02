@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"flag"
+	"fmt"
 
 	"cloud.google.com/go/pubsub"
 	"github.com/golang/glog"
@@ -25,12 +26,13 @@ func SendMetric() error {
 	}
 
 	for _, point := range event.Metrics.Points {
-		metric, err := eventprocessing.GetMetricFromPoint(point, event.Entity.Name)
+		metric, err := eventprocessing.GetMetricFromPoint(point, event.Entity.Name, event.Entity.Namespace)
 		if err != nil {
 			glog.Errorf("error processing sensu event MetricPoints into MetricValue: %v", err)
 			return err
 		}
 		msg, err := json.Marshal(metric)
+		fmt.Printf("metric json is:\n%s", msg)
 		if err != nil {
 			glog.Errorf("error serializing metric data to pub/sub json payload: %v", err)
 			return err

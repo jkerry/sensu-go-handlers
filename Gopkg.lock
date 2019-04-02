@@ -90,6 +90,17 @@
   version = "v2.0.2"
 
 [[projects]]
+  digest = "1:52538ef7f836f1a1318e0993002fb88b840cc07aebeb65dbede0841d19e6f761"
+  name = "github.com/jkerry/sensu-go-handlers"
+  packages = [
+    "lib/app/pubsub",
+    "lib/pkg/eventprocessing",
+  ]
+  pruneopts = "UT"
+  revision = "fe35cb3c4fdecb4c042440f61e77f09b81a1bcf9"
+  version = "0.0.1"
+
+[[projects]]
   digest = "1:1ed5ad32e321bd35d51e30dbbccab9d226ac290347838d03362b427459036a91"
   name = "github.com/json-iterator/go"
   packages = ["."]
@@ -340,6 +351,8 @@
   input-imports = [
     "cloud.google.com/go/pubsub",
     "github.com/golang/glog",
+    "github.com/jkerry/sensu-go-handlers/lib/app/pubsub",
+    "github.com/jkerry/sensu-go-handlers/lib/pkg/eventprocessing",
     "github.com/sensu/sensu-go/types",
   ]
   solver-name = "gps-cdcl"

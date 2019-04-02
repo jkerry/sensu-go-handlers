@@ -7,6 +7,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/sensu/sensu-go/types"
 )
@@ -42,45 +43,76 @@ func GetPipedEvent() (*types.Event, error) {
 	return event, nil
 }
 
+type Tag struct {
+	tag   string
+	value string
+}
 type MetricValue struct {
-	Timestamp int64
-	Name      string
-	Entity    string
-	Value     float64
-	Tags      map[string]string
+	timestamp string
+	name      string
+	entity    string
+	value     float64
+	namespace string
+	tags      []Tag
 }
 
-func parsePointTimestamp(point *types.MetricPoint) (int64, error) {
+// {
+// 	"name": "avg_cpu",
+// 	"value": "56.0",
+// 	"timestamp": "2019-03-30 12:30:00.45",
+// 	"entity": "demo_test_agent",
+// 	"namespace": "demo_jk185160",
+// 	"tags": [
+// 			{
+// 					"tag": "company",
+// 					"value": "JKTE001"
+// 			},
+// 			{
+// 					"tag": "site",
+// 					"value": "1001"
+// 			}
+// 	]
+// }
+
+func parsePointTimestamp(point *types.MetricPoint) (string, error) {
 	stringTimestamp := strconv.FormatInt(point.Timestamp, 10)
 	if len(stringTimestamp) > 10 {
 		stringTimestamp = stringTimestamp[:10]
 	}
 	t, err := strconv.ParseInt(stringTimestamp, 10, 64)
 	if err != nil {
-		return 0, err
+		return "", err
 	}
-	return t, nil
+	return time.Unix(t, 0).Format(time.RFC3339), nil
 }
 
-func GetMetricFromPoint(point *types.MetricPoint, entityID string) (MetricValue, error) {
+func GetMetricFromPoint(point *types.MetricPoint, entityID string, namespaceID string) (MetricValue, error) {
 	var metric MetricValue
 
-	metric.Entity = entityID
+	metric.entity = entityID
+	metric.namespace = namespaceID
 	// Find metric name
 	nameField := strings.Split(point.Name, ".")
-	metric.Name = nameField[0]
+	metric.name = nameField[0]
 
 	// Find metric timstamp
 	unixTimestamp, err := parsePointTimestamp(point)
 	if err != nil {
 		return *new(MetricValue), fmt.Errorf("failed to validate event: %s", err.Error())
 	}
-	metric.Timestamp = unixTimestamp
-	metric.Tags = make(map[string]string)
-	metric.Tags["sensu_entity_name"] = entityID
+	metric.timestamp = unixTimestamp
+	metric.tags = make([]Tag, len(point.Tags)+1)
+	i := 0
 	for _, tag := range point.Tags {
-		metric.Tags[tag.Name] = tag.Value
+		var thisTag Tag
+		thisTag.tag = tag.Name
+		thisTag.value = tag.Value
+		metric.tags[i] = thisTag
+		i++
 	}
-	metric.Value = point.Value
+	var entityNameTag Tag
+	entityNameTag.tag = "sensu_entity_name"
+	entityNameTag.value = entityID
+	metric.value = point.Value
 	return metric, nil
 }

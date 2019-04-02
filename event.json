@@ -1,0 +1,201 @@
+{
+  "timestamp": 1554177833,
+  "entity": {
+    "entity_class": "agent",
+    "system": {
+      "hostname": "WIN-T21D184CGSM",
+      "os": "windows",
+      "platform": "Microsoft Windows Server 2012 R2 Standard",
+      "platform_family": "Server",
+      "platform_version": "6.3.9600 Build 9600",
+      "network": {
+        "interfaces": [
+          {
+            "name": "Ethernet0",
+            "mac": "00:50:56:af:8d:13",
+            "addresses": [
+              "fe80::25dd:9e05:f676:861d/64",
+              "153.87.45.161/24"
+            ]
+          },
+          {
+            "name": "Loopback Pseudo-Interface 1",
+            "addresses": [
+              "::1/128",
+              "127.0.0.1/8"
+            ]
+          },
+          {
+            "name": "isatap.corp.ncr.com",
+            "mac": "00:00:00:00:00:00:00:e0",
+            "addresses": [
+              "fe80::200:5efe:9957:2da1/128"
+            ]
+          },
+          {
+            "name": "6TO4 Adapter",
+            "mac": "00:00:00:00:00:00:00:e0",
+            "addresses": [
+              "2002:9957:2da1::9957:2da1/128"
+            ]
+          }
+        ]
+      },
+      "arch": "amd64"
+    },
+    "subscriptions": [
+      "windows_x64,dev_demo_checks",
+      "entity:DEMO-TESTAGENT"
+    ],
+    "last_seen": 1549998994,
+    "deregister": false,
+    "deregistration": {},
+    "user": "demo_agents",
+    "metadata": {
+      "name": "DEMO-TESTAGENT",
+      "namespace": "demo_jk185160"
+    }
+  },
+  "check": {
+    "command": "powershell.exe -Command \"$avg_ping = Test-Connection ncr.com | ForEach-Object {$_.ResponseTime} | Measure-Object -Average | ForEach-Object {$_.Average}; $Status = \\\"OK\\\"; $ExitCode = 0; if ($avg_ping -gt 500){$Status = \\\"CRITICAL\\\"; $ExitCode = 2}elseif ($avg_ping -gt 300){$Status = \\\"WARN\\\"; $ExitCode = 1}; Write-Host \\\"PING ncr.com $Status - latency = $avg_ping ms ^| ping_latency_ncr.com=$avg_ping\\\"; exit($ExitCode)\"",
+    "handlers": [
+      "slack"
+    ],
+    "high_flap_threshold": 60,
+    "interval": 30,
+    "low_flap_threshold": 20,
+    "publish": true,
+    "runtime_assets": null,
+    "subscriptions": [
+      "dev_demo_checks"
+    ],
+    "proxy_entity_name": "",
+    "check_hooks": null,
+    "stdin": false,
+    "subdue": null,
+    "ttl": 0,
+    "timeout": 0,
+    "round_robin": false,
+    "duration": 3.4692468,
+    "executed": 1554177829,
+    "history": [
+      {
+        "status": 0,
+        "executed": 1554177229
+      },
+      {
+        "status": 0,
+        "executed": 1554177265
+      },
+      {
+        "status": 0,
+        "executed": 1554177295
+      },
+      {
+        "status": 0,
+        "executed": 1554177325
+      },
+      {
+        "status": 0,
+        "executed": 1554177349
+      },
+      {
+        "status": 0,
+        "executed": 1554177385
+      },
+      {
+        "status": 0,
+        "executed": 1554177415
+      },
+      {
+        "status": 0,
+        "executed": 1554177439
+      },
+      {
+        "status": 0,
+        "executed": 1554177475
+      },
+      {
+        "status": 0,
+        "executed": 1554177505
+      },
+      {
+        "status": 0,
+        "executed": 1554177529
+      },
+      {
+        "status": 0,
+        "executed": 1554177565
+      },
+      {
+        "status": 0,
+        "executed": 1554177595
+      },
+      {
+        "status": 0,
+        "executed": 1554177625
+      },
+      {
+        "status": 0,
+        "executed": 1554177655
+      },
+      {
+        "status": 0,
+        "executed": 1554177679
+      },
+      {
+        "status": 0,
+        "executed": 1554177709
+      },
+      {
+        "status": 0,
+        "executed": 1554177745
+      },
+      {
+        "status": 0,
+        "executed": 1554177775
+      },
+      {
+        "status": 0,
+        "executed": 1554177799
+      },
+      {
+        "status": 0,
+        "executed": 1554177829
+      }
+    ],
+    "issued": 1554177985,
+    "output": "PING ncr.com OK - latency = 22.25 ms | ping_latency_ncr.com=22.25\n",
+    "state": "passing",
+    "status": 0,
+    "total_state_change": 0,
+    "last_ok": 1554177833,
+    "occurrences": 1,
+    "occurrences_watermark": 26,
+    "output_metric_format": "nagios_perfdata",
+    "output_metric_handlers": [
+      "opentsdb"
+    ],
+    "env_vars": null,
+    "metadata": {
+      "name": "check_ping_ncr.com",
+      "namespace": "demo_jk185160"
+    }
+  },
+  "metrics": {
+    "handlers": [
+      "opentsdb"
+    ],
+    "points": [
+      {
+        "name": "ping_latency_ncr.com",
+        "value": 22.25,
+        "timestamp": 1554177829,
+        "tags": []
+      }
+    ]
+  },
+  "metadata": {
+    "namespace": "demo_jk185160"
+  }
+}

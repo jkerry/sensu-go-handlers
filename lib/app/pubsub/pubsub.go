@@ -6,11 +6,10 @@ import (
 	"encoding/json"
 	"errors"
 	"flag"
-	"fmt"
 
 	"cloud.google.com/go/pubsub"
 	"github.com/golang/glog"
-	"github.com/jkerry/sensu-go-handlers/lib/pkg/eventprocessing"
+	"github.com/jkerry/sensu_gcp_pubsub_handler/lib/pkg/eventprocessing"
 )
 
 func SendMetric() error {
@@ -26,13 +25,12 @@ func SendMetric() error {
 	}
 
 	for _, point := range event.Metrics.Points {
-		metric, err := eventprocessing.GetMetricFromPoint(point, event.Entity.Name, event.Entity.Namespace)
+		metric, err := eventprocessing.GetMetricFromPoint(point, event.Entity.Name, event.Entity.Namespace, event.Entity.Labels)
 		if err != nil {
 			glog.Errorf("error processing sensu event MetricPoints into MetricValue: %v", err)
 			return err
 		}
 		msg, err := json.Marshal(metric)
-		fmt.Printf("metric json is:\n%s", msg)
 		if err != nil {
 			glog.Errorf("error serializing metric data to pub/sub json payload: %v", err)
 			return err
@@ -75,8 +73,6 @@ func configure() (*pubsub.Client, string, error) {
 
 func testPermissions(c *pubsub.Client, topicName string) ([]string, error) {
 	ctx := context.Background()
-
-	// [START pubsub_test_topic_permissions]
 	topic := c.Topic(topicName)
 	perms, err := topic.IAM().TestPermissions(ctx, []string{
 		"pubsub.topics.publish",
@@ -85,26 +81,19 @@ func testPermissions(c *pubsub.Client, topicName string) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	// [END pubsub_test_topic_permissions]
 	return perms, nil
 }
 
 func publish(client *pubsub.Client, topic string, payload []byte) error {
 	ctx := context.Background()
-	// [START pubsub_publish]
-	// [START pubsub_quickstart_publisher]
 	t := client.Topic(topic)
 	result := t.Publish(ctx, &pubsub.Message{
 		Data: payload,
 	})
-	// Block until the result is returned and a server-generated
-	// ID is returned for the published message.
 	id, err := result.Get(ctx)
 	if err != nil {
 		return err
 	}
 	glog.Infof("Published a message; msg ID: %v\n", id)
-	// [END pubsub_publish]
-	// [END pubsub_quickstart_publisher]
 	return nil
 }

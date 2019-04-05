@@ -53,7 +53,12 @@
     "user": "demo_agents",
     "metadata": {
       "name": "DEMO-TESTAGENT",
-      "namespace": "demo_jk185160"
+      "namespace": "demo_jk185160",
+      "labels": {
+        "hypervisor": "vsphere",
+        "lab": "devtest",
+        "location": "dallas"
+      }
     }
   },
   "check": {
@@ -191,7 +196,12 @@
         "name": "ping_latency_ncr.com",
         "value": 22.25,
         "timestamp": 1554177829,
-        "tags": []
+        "tags": [
+          {
+            "name": "random",
+            "value": "quasar"
+          } 
+        ]
       }
     ]
   },

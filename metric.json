@@ -1,0 +1,29 @@
+{
+    "timestamp": "2019-04-02T00:03:49-04:00",
+    "name": "ping_latency_ncr",
+    "entity": "DEMO-TESTAGENT",
+    "value": 22.25,
+    "namespace": "demo_jk185160",
+    "tags": [
+        {
+            "tag": "random",
+            "value": "quasar"
+        },
+        {
+            "tag": "entity_label_hypervisor",
+            "value": "vsphere"
+        },
+        {
+            "tag": "entity_label_lab",
+            "value": "devtest"
+        },
+        {
+            "tag": "entity_label_location",
+            "value": "dallas"
+        },
+        {
+            "tag": "sensu_entity_name",
+            "value": "DEMO-TESTAGENT"
+        }
+    ]
+}
